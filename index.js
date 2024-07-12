@@ -27,13 +27,20 @@ const initialIceState = {
 };
 
 // Reducer
-const reducer = (state = initialState, action) => {
+const CakeReducer = (state = initialCakeState, action) => {
   switch (action.type) {
     case BUY_CAKE:
       return {
         ...state,
         numOfCakes: state.numOfCakes - 1,
       };
+    default:
+      return state;
+  }
+};
+
+const IceReducer = (state = initialIceState, action) => {
+  switch (action.type) {
     case BUY_ICECREAM:
       return {
         ...state,
