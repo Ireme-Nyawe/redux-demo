@@ -1,16 +1,21 @@
+const redux = require("redux");
+const createStore = redux.createStore;
 const BUY_CAKE = "BUY_CAKE";
-Action = {
-  type: BUY_CAKE,
-  info: "first redux action",
-};
 
+// Action creator
 function buyCake() {
-  return Action;
+  return {
+    type: BUY_CAKE,
+    info: "first redux action",
+  };
 }
 
+// Initial state
 const initialState = {
   numOfCakes: 10,
 };
+
+// Reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case BUY_CAKE:
@@ -23,3 +28,17 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+// Create store
+const store = createStore(reducer);
+console.log("Initial state", store.getState());
+
+// Subscribe to store updates
+const unsubscribe = store.subscribe(() =>
+  console.log("Updated state", store.getState())
+);
+
+// Dispatch actions
+store.dispatch(buyCake()); // Call the action creator function
+store.dispatch(buyCake());
+unsubscribe();
