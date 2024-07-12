@@ -1,56 +1,79 @@
-const redux = require("redux");
-const thunk = require("redux-thunk");
-const axios = require("axios");
 
-const createStore = redux.createStore;
+import axios from 'axios'
+import { thunk } from 'redux-thunk'
+const thunkMiddleware = thunk
+import { createStore,applyMiddleware } from 'redux'
 
 const initialState = {
   loading: false,
-  data: [],
-  error: "",
-};
+  users: [],
+  error: ''
+}
 
-const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
-const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
-const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
+const FETCH_USERS_REQUEST = 'FETCH_USERS_REQUEST'
+const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS'
+const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE'
+
 const fetchUsersRequest = () => {
   return {
-    type: FETCH_USERS_REQUEST,
-  };
-};
-const fetchUsersSuccess = (users) => {
+    type: FETCH_USERS_REQUEST
+  }
+}
+
+const fetchUsersSuccess = users => {
   return {
     type: FETCH_USERS_SUCCESS,
-    payload: users,
-  };
-};
-const fetchUsersFailure = (error) => {
+    payload: users
+  }
+}
+
+const fetchUsersFailure = error => {
   return {
     type: FETCH_USERS_FAILURE,
-    payload: error,
-  };
-};
+    payload: error
+  }
+}
+
+const fetchUsers = () => {
+  return function (dispatch) {
+    dispatch(fetchUsersRequest())
+    axios
+      .get('https://jsonplaceholder.typicode.com/users')
+      .then(response => {
+        // response.data is the users
+        const users = response.data.map(user => user.id)
+        dispatch(fetchUsersSuccess(users))
+      })
+      .catch(error => {
+        // error.message is the error message
+        dispatch(fetchUsersFailure(error.message))
+      })
+  }
+}
 
 const reducer = (state = initialState, action) => {
+  console.log(action.type)
   switch (action.type) {
     case FETCH_USERS_REQUEST:
       return {
         ...state,
-        loading: true,
-      };
+        loading: true
+      }
     case FETCH_USERS_SUCCESS:
       return {
-        loading: true,
-        data: action.payload,
-        error: "",
-      };
+        loading: false,
+        users: action.payload,
+        error: ''
+      }
     case FETCH_USERS_FAILURE:
       return {
-        loading: true,
-        data: [],
-        error: action.payload,
-      };
+        loading: false,
+        users: [],
+        error: action.payload
+      }
   }
-};
+}
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunkMiddleware))
+store.subscribe(() => { console.log(store.getState()) })
+store.dispatch(fetchUsers())
