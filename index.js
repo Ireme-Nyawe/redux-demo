@@ -19,8 +19,10 @@ function buyIceCream() {
 }
 
 // Initial state
-const initialState = {
+const initialCakeState = {
   numOfCakes: 10,
+};
+const initialIceState = {
   numOfIcecream: 20,
 };
 
