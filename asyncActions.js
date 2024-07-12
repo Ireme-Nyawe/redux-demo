@@ -1,4 +1,7 @@
 const redux = require("redux");
+const axios = require('aaxios')
+const thunk= require('redux-thunk').default
+const applyMiddleware=redux.applyMiddleware
 const createStore = redux.createStore;
 const initialState = {
   loading: false,
@@ -30,4 +33,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const store = createStore(reducer);
+const store = createStore(reducer,applyMiddleware(thunk));
