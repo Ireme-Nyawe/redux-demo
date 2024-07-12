@@ -38,7 +38,7 @@ const unsubscribe = store.subscribe(() =>
   console.log("Updated state", store.getState())
 );
 
-// Dispatch actions
-store.dispatch(buyCake()); // Call the action creator function
+// Dispatch actions, Call the action creator function
+store.dispatch(buyCake()); 
 store.dispatch(buyCake());
 unsubscribe();
