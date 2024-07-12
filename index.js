@@ -1,18 +1,29 @@
 const redux = require("redux");
 const createStore = redux.createStore;
 const BUY_CAKE = "BUY_CAKE";
+const BUY_ICECREAM ='BUY_ICECREAM'
 
-// Action creator
+// Action creator for cake
 function buyCake() {
   return {
     type: BUY_CAKE,
-    info: "first redux action",
+    info: "action for cake",
   };
 }
+// Action creator for icecream
+function buyIceCream() {
+  return {
+    type: BUY_ICECREAM,
+    info: "action for icecream",
+  };
+}
+
+
 
 // Initial state
 const initialState = {
   numOfCakes: 10,
+  numOfCakes: 20
 };
 
 // Reducer
@@ -23,6 +34,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         numOfCakes: state.numOfCakes - 1,
       };
+
 
     default:
       return state;
