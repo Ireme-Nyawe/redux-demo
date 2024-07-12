@@ -55,4 +55,8 @@ const unsubscribe = store.subscribe(() =>
 // Dispatch actions, Call the action creator function
 store.dispatch(buyCake());
 store.dispatch(buyCake());
+store.dispatch(buyCake());
+store.dispatch(buyIceCream());
+store.dispatch(buyIceCream());
+
 unsubscribe();
